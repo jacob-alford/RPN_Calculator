@@ -124,5 +124,8 @@ const matrix = (shape,arr) => {
 }
 
 $(document).ready(function(){
-
+  $(".linkFade").hover(
+    function(){ $(this).stop().animate({opacity:.5},"fast") },
+    function(){ $(this).stop().animate({opacity:1},"fast") }
+  );
 });
