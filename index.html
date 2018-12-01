@@ -8,9 +8,9 @@
     <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
     <title>Jacob Alford's Portfolio</title>
   </head>
-  <body>
-    <div class="container">
-      <h1 style="font-weight:bold;text-align:center" class="mt-5 pt-4">RPN Calculator</h1>
+  <body style="margin:0;padding:0;">
+    <div class="container-fluid bg-light">
+      <h1 id="topDisplay" style="font-weight:bold;text-align:center" class="mb-4 py-2">RPN Calculator</h1>
     </div>
     <style>
       a:link{
@@ -24,85 +24,101 @@
       }
     </style>
 
-    <div class"container-fluid">
-      <div class="row">
-        <div id="tape" class="col ml-3 bg-light">
-
+    <div class"container-fluid m-0 p-0">
+      <div class="row m-0 p-0">
+        <div class="col-xl-4 col-lg-5 col-md-4 col-sm-0 col-0" style="height:867.6px;overflow-y:scroll;overflow-x:hidden;">
+          <h3 class="text-right">Tape</h3>
+          <table class="table mb-0 table-dark">
+            <tbody id="tape" >
+              <tr id="d1"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d2"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d3"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d4"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d5"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d6"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d7"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d8"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d9"><td><h1 style="height:48px;"></h1></td></tr>
+              <tr id="d10"><td><h1 style="height:48px;"></h1></td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="col mr-3 bg-light">
-          <div id="disp" class="row text-right" style="color:white;background-image:linear-gradient(black,darkblue);">
-            <table class="table">
-              <tbody>
-                <tr><td><h1>42</h1></td></tr>
-                <tr><td><h1>3.14159265</h1></td></tr>
-                <tr><td><h1>1.69696969</h1></td></tr>
-                <tr><td><h1>4pie-7</h1></td></tr>
-                <tr><td><h1>4pie-7</h1></td></tr>
+        <div class="col-xl-8 col-lg-7 col-md-8 col-sm-0 col-0 pl-3 m-0">
+          <div class="row p-0 m-0">
+            <h3 class="text-center">Stack</h3>
+            <table class="table table-dark pr-5"  style="color:white;background-image:linear-gradient(black,darkblue);">
+              <tbody class="text-right" id="display">
+                <tr><td><h1 style="height:48px;"></h1></td></tr>
+                <tr><td><h1 style="height:48px;"></h1></td></tr>
+                <tr><td><h1 style="height:48px;"></h1></td></tr>
+                <tr><td><h1 style="height:48px;"></h1></td></tr>
+                <tr><td><h1 style="height:48px;"></h1></td></tr>
+                <tr><td><h1 style="height:48px;">0</h1></td></tr>
               </tbody>
             </table>
           </div>
-          <div id="keys" class="row">
-            <table class="table table-bordered table-dark">
+          <div id="keys" class="row p-0 m-0">
+            <table class="table table-bordered table-light">
               <tbody>
                 <tr>
                   <td class="bg-secondary text-center align-middle linkFade" style="color:white;">deg/rad</td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">\pi</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">c</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">\frac{1}{x}</span></td>
-                  <td class="bg-light text-center align-middle linkFade" style="color:red;">drop</td>
-                  <td class="bg-light text-center align-middle linkFade" style="color:red;">C</td>
-                  <td class="bg-light text-center align-middle linkFade" style="color:red;">AC</td>
-                  <td class="bg-light text-center align-middle linkFade" style="color:red;">&larr;</td>
+                  <td onclick="Controller(drop)" class="bg-light text-center align-middle linkFade" style="color:red;">drop</td>
+                  <td onclick="clearNext()" class="bg-light text-center align-middle linkFade" style="color:red;">C</td>
+                  <td onclick="clearAll()" class="bg-light text-center align-middle linkFade" style="color:red;">AC</td>
+                  <td onclick="backspaceNum()" class="bg-light text-center align-middle linkFade" style="color:red;">&larr;</td>
                 </tr>
                 <tr>
                   <td class="bg-light text-center align-middle linkFade">x</td>
                   <td class="bg-light text-center align-middle linkFade">x</td>
                   <td class="bg-light text-center align-middle linkFade">x</td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">x!</span></td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">roll</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">swap</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">mod</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">&#247;</td>
+                  <td onclick="Controller(roll)" class="bg-primary text-center align-middle linkFade" style="color:white;">roll</td>
+                  <td onclick="Controller(swap)" class="bg-primary text-center align-middle linkFade" style="color:white;">swap</td>
+                  <td onclick="Controller(mod)" class="bg-primary text-center align-middle linkFade" style="color:white;">mod</td>
+                  <td onclick="Controller(div)" class="bg-primary text-center align-middle linkFade" style="color:white;">&#247;</td>
                 </tr>
                 <tr>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">sin</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">cos</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">tan</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">\sqrt{x}</span></td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">7</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">8</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">9</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">&times;</td>
+                  <td onclick="numInput(7)" class="bg-secondary text-center align-middle linkFade" style="color:white;">7</td>
+                  <td onclick="numInput(8)" class="bg-secondary text-center align-middle linkFade" style="color:white;">8</td>
+                  <td onclick="numInput(9)" class="bg-secondary text-center align-middle linkFade" style="color:white;">9</td>
+                  <td onclick="Controller(mult)" class="bg-primary text-center align-middle linkFade" style="color:white;">&times;</td>
                 </tr>
                 <tr>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">sin^{-1}</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">cos^{-1}</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">tan^{-1}</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">\sqrt[x]{y}</span></td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">4</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">5</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">6</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">+</td>
+                  <td onclick="numInput(4)" class="bg-secondary text-center align-middle linkFade" style="color:white;">4</td>
+                  <td onclick="numInput(5)" class="bg-secondary text-center align-middle linkFade" style="color:white;">5</td>
+                  <td onclick="numInput(6)" class="bg-secondary text-center align-middle linkFade" style="color:white;">6</td>
+                  <td onclick="Controller(add)" class="bg-primary text-center align-middle linkFade" style="color:white;">+</td>
                 </tr>
                 <tr>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">log_{10}</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">log_2</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">ln</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">y^x</span></td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">1</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">2</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">3</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">-</td>
+                  <td onclick="numInput(1)" class="bg-secondary text-center align-middle linkFade" style="color:white;">1</td>
+                  <td onclick="numInput(2)" class="bg-secondary text-center align-middle linkFade" style="color:white;">2</td>
+                  <td onclick="numInput(3)" class="bg-secondary text-center align-middle linkFade" style="color:white;">3</td>
+                  <td onclick="Controller(sub)" class="bg-primary text-center align-middle linkFade" style="color:white;">-</td>
                 </tr>
                 <tr>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">10^x</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">2^x</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">e^x</span></td>
                   <td class="bg-light text-center align-middle linkFade"><span lang="latex">x^2</span></td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">0</td>
+                  <td onclick="numInput(0)" class="bg-secondary text-center align-middle linkFade" style="color:white;">0</td>
                   <td class="bg-secondary text-center align-middle linkFade" style="color:white;">.</td>
                   <td class="bg-secondary text-center align-middle linkFade" style="color:white;">&#177;</td>
-                  <td class="bg-primary text-center align-middle linkFade" style="color:white;">enter</td>
+                  <td onclick="enterNumber()" class="bg-primary text-center align-middle linkFade" style="color:white;">enter</td>
                 </tr>
               </tbody>
             </table>

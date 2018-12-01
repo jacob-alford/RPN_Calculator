@@ -1,19 +1,28 @@
-let buttons = [];
+let buttons = {};
+let stack = [0];
+let tapeLength = [];
+let tapeHist = [];
+let hasBeenUpdated = false;
+let hasEntered = false;
+let currentNum = [];
+let clearClicks = 0;
 
 class button{
-  constructor(title,fn){
+  constructor(title,fn,rd){
     this.title = title;
     this.fn = fn;
+    this.readout = rd;
     addButton(this);
   }
-  execute(stack){
-    return this.fn(stack);
+  execute(stack,num){
+    return this.fn(stack,num);
+  }
+  print(a,b){
+    return this.readout(a,b);
   }
 }
 
-const addButton = btn => {
-    buttons.push(btn);
-}
+const addButton = btn => buttons[btn.title] = btn;
 
 const popArr = arr => {
   arr.pop();
@@ -30,12 +39,16 @@ let swap = new button("swap",arr => {
     let temp1 = [];
     for(let c=arr.length-1;c>arr.length-3;c--) temp1.push(arr[c]);
     return popArr(popArr(arr)).concat(temp1);
+},() => {
+  return [`${stack[stack.length-1]} &leg; ${stack[stack.length-2]}`];
 });
 
 let roll = new button("roll",arr => {
   let lastVal = arr.pop();
   arr.unshift(lastVal);
   return arr;
+},() => {
+  return [`ROLL`];
 });
 
 let mod = new button("mod",arr => {
@@ -43,6 +56,8 @@ let mod = new button("mod",arr => {
   doublePop(arr);
   arr.push(newVal);
   return arr;
+},stack => {
+  return [`${stack[stack.length-2]} mod(${stack[stack.length-1]})`,`&emsp;=${stack[stack.length-2]%stack[stack.length-1]}`];
 });
 
 let div = new button("&#247;",arr => {
@@ -50,6 +65,8 @@ let div = new button("&#247;",arr => {
   doublePop(arr);
   arr.push(newVal);
   return arr;
+},stack => {
+  return [`${stack[stack.length-1]}/${stack[stack.length-2]}`,`&emsp;=${stack[stack.length-1] / stack[stack.length-2]}`];
 });
 
 let mult = new button("&#215;",arr => {
@@ -57,6 +74,8 @@ let mult = new button("&#215;",arr => {
   doublePop(arr);
   arr.push(newVal);
   return arr;
+},stack => {
+  return [`${stack[stack.length-1]}&times;${stack[stack.length-2]}`,`&emsp;=${stack[stack.length-1] * stack[stack.length-2]}`];
 });
 
 let sub = new button("-",arr => {
@@ -64,6 +83,8 @@ let sub = new button("-",arr => {
   doublePop(arr);
   arr.push(newVal);
   return arr;
+},stack => {
+  return [`${stack[stack.length-2]}-${stack[stack.length-1]}`,`&emsp;=${stack[stack.length-2] - stack[stack.length-1]}`];
 });
 
 let add = new button("+",arr => {
@@ -71,12 +92,158 @@ let add = new button("+",arr => {
   doublePop(arr);
   arr.push(newVal);
   return arr;
+},stack => {
+  return [`${stack[stack.length-1]}+${stack[stack.length-2]}`,`&emsp;=${stack[stack.length-1] + stack[stack.length-2]}`];
 });
 
-let enter = new button("enter",arr => {
-  arr.push(arr[arr.length-1]);
+let enter = new button("enter",(arr,num) => {
+  if(!hasBeenUpdated){
+    arr[0] = num;
+    hasBeenUpdated = true;
+  }else{
+    arr.push(num);
+  }
   return arr;
+},(stack,num) => {
+  return [`ENTER ${num}`];
 });
+
+let drop = new button("drop",arr => {
+  arr.pop();
+  return arr;
+},(stack,num) => {
+  return [`DROP ${stack[stack.length-1]}`];
+});
+
+const clearAll = () => {
+  ClearDisplay();
+  ClearTape();
+}
+
+const clearNext = () => {
+  if(clearClicks == 0){
+    clearClicks++;
+    ClearDisplay();
+  }else{
+    ClearDisplay();
+    ClearTape();
+    clearClicks = 0;
+  }
+}
+
+const ClearDisplay = () => {
+  stack = [];
+  $("#display").html(`<tr><td><h1 style="height:48px;"></h1></td></tr>
+  <tr><td><h1 style="height:48px;"></h1></td></tr>
+  <tr><td><h1 style="height:48px;"></h1></td></tr>
+  <tr><td><h1 style="height:48px;"></h1></td></tr>
+  <tr><td><h1 style="height:48px;"></h1></td></tr>
+  <tr><td><h1 style="height:48px;">0</h1></td></tr>`);
+}
+
+const ClearTape = () => {
+  $("#tape").html(`<tr id="d1"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d2"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d3"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d4"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d5"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d6"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d7"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d8"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d9"><td><h1 style="height:48px;"></h1></td></tr>
+  <tr id="d10"><td><h1 style="height:48px;"></h1></td></tr>`);
+}
+
+const Controller = (btn,num) => {
+  //if(!hasEntered) pushStack();
+  let tempTape = btn.print(stack,num);
+  let check = [true];
+  if(!(tempTape[1] === undefined)){
+    if(tempTape[1].includes("NaN")){
+      ClearDisplay();
+      alert("This function requires two numbers!");
+      check=[false,tempTape[1].indexOf("NaN")];
+    }else{
+      tapeLength.push(tapeLength.length);
+      if(tapeLength.length < 10) $(`#d${tapeLength.length}`).remove();
+      $("#tape").prepend(`<tr><td><h1 style="height:48px;">${tempTape[1]}</h1></td></tr>`);
+      $("#tape").prepend(`<tr><td><h1 style="height:48px;">${tempTape[0]}</h1></td></tr>`);
+    }
+  }else $("#tape").prepend(`<tr><td><h1 style="height:48px;">${tempTape[0]}</h1></td></tr>`);
+  tapeLength.push(tapeLength.length);
+  if(tapeLength.length < 10 && check[0]) $(`#d${tapeLength.length}`).remove();
+  $("#display").html("");
+  stack = btn.execute(stack,num);
+  let numLines = stack.length;
+  if(!check[0]) {
+    stack.splice(0, check[1]);
+    $("#display").append(`<tr><td><h1 style="height:48px;">0</h1></td></tr>`);
+  }
+  stack.forEach((c,i) => {
+    if(i<6 && check[0]) $("#display").append(`<tr><td><h1 style="height:48px;">${commas(c)}</h1></td></tr>`);
+  });
+  if(numLines<6){
+    for(let i=0;i<6-numLines;i++)  $("#display").prepend(`<tr><td><h1 style="height:48px;"></h1></td></tr>`);
+  }
+}
+
+const backspaceNum = () => {
+  currentNum.pop();
+  if(currentNum.length != 0){
+    $("#topDisplay").html(currentNum);
+  }else{
+    $("#topDisplay").html("Enter a number using the keypad below:");
+  }
+}
+
+const numInput = num => {
+  if(hasEntered){
+    $("#topDisplay").html(num);
+    currentNum.push(num);
+    hasEntered = false;
+  }else{
+    if(currentNum.length == 0 || currentNum[0] == 0){
+      currentNum[0]=num;
+      $("#topDisplay").html(currentNum);
+    }else{
+      currentNum.push(num);
+      $("#topDisplay").html(currentNum);
+    }
+  }
+}
+
+const reverseNum = num => {
+  let temp = num + "";
+  let temp2 = temp.split("");
+  temp2.forEach((c,i) => temp2[i] = Number(temp2[i]));
+  let temp3 = temp2.reduce((a,c,i) => {
+    if(c == 0) return a = a*10;
+    else return a += c * Math.pow(10,i);
+  });
+  return temp3;
+}
+
+const enterNumber = () => {
+  Controller(enter,reverseNum(currentNum.reduce((a,c,i) => {
+    if(c == 0) return a = a*10;
+    else return a += c * Math.pow(10,i);
+    })));
+    $("#topDisplay").html("Enter a number using the keypad below:");
+    hasEntered = true;
+    currentNum = [];
+}
+const pushStack = () => {
+  enter.execute(stack,reverseNum(currentNum.reduce((a,c,i) => {
+    if(c == 0) return a = a*10;
+    else return a += c * Math.pow(10,i);
+  })));
+}
+
+function commas(str) {
+  return (str + "").replace(/\b(\d+)((\.\d+)*)\b/g, function(a, b, c) {
+    return (b.charAt(0) > 0 && !(c || ".").lastIndexOf(".") ? b.replace(/(\d)(?=(\d{3})+$)/g, "$1,") : b) + c;
+  });
+}
 
 const seq = (i,e) => {
   let outputArr = [];
