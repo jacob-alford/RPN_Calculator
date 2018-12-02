@@ -61,63 +61,63 @@
             <table class="table table-bordered table-light">
               <tbody>
                 <tr>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">deg/rad</td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">\pi</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">c</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">\frac{1}{x}</span></td>
+                  <td id="degRad" onclick="switchTrig()" class="bg-secondary text-center align-middle linkFade" style="color:White;">deg</td>
+                  <td onclick="inputConst(Math.PI)" class="bg-light text-center align-middle linkFade">&pi;</td>
+                  <td onclick="inputConst(299792458)" class="bg-light text-center align-middle linkFade"><span lang="latex">c</span></td>
+                  <td onclick="Controller(invert)" class="bg-light text-center align-middle linkFade">x<sup>-1</sup></td>
                   <td onclick="Controller(drop)" class="bg-light text-center align-middle linkFade" style="color:red;">drop</td>
                   <td onclick="clearNext()" class="bg-light text-center align-middle linkFade" style="color:red;">C</td>
                   <td onclick="clearAll()" class="bg-light text-center align-middle linkFade" style="color:red;">AC</td>
                   <td onclick="backspaceNum()" class="bg-light text-center align-middle linkFade" style="color:red;">&larr;</td>
                 </tr>
                 <tr>
-                  <td class="bg-light text-center align-middle linkFade">x</td>
-                  <td class="bg-light text-center align-middle linkFade">x</td>
-                  <td class="bg-light text-center align-middle linkFade">x</td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">x!</span></td>
+                  <td onclick="Controller(average)" class="bg-light text-center align-middle linkFade">&mu;</td>
+                  <td onclick="Controller(sum)" class="bg-light text-center align-middle linkFade">&sum;</td>
+                  <td onclick="Controller(product)" class="bg-light text-center align-middle linkFade">&prod;</td>
+                  <td onclick="Controller(factorial)" class="bg-light text-center align-middle linkFade"><i>x!</i></td>
                   <td onclick="Controller(roll)" class="bg-primary text-center align-middle linkFade" style="color:white;">roll</td>
                   <td onclick="Controller(swap)" class="bg-primary text-center align-middle linkFade" style="color:white;">swap</td>
                   <td onclick="Controller(mod)" class="bg-primary text-center align-middle linkFade" style="color:white;">mod</td>
                   <td onclick="Controller(div)" class="bg-primary text-center align-middle linkFade" style="color:white;">&#247;</td>
                 </tr>
                 <tr>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">sin</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">cos</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">tan</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">\sqrt{x}</span></td>
+                  <td onclick="Controller(sin)" class="bg-light text-center align-middle linkFade"><i>sin</i></td>
+                  <td onclick="Controller(cos)" class="bg-light text-center align-middle linkFade"><i>cos</i></td>
+                  <td onclick="Controller(tan)" class="bg-light text-center align-middle linkFade"><i>tan</i></td>
+                  <td onclick="Controller(sqrt)" class="bg-light text-center align-middle linkFade"><span lang="latex">\sqrt{x}</span></td>
                   <td onclick="numInput(7)" class="bg-secondary text-center align-middle linkFade" style="color:white;">7</td>
                   <td onclick="numInput(8)" class="bg-secondary text-center align-middle linkFade" style="color:white;">8</td>
                   <td onclick="numInput(9)" class="bg-secondary text-center align-middle linkFade" style="color:white;">9</td>
                   <td onclick="Controller(mult)" class="bg-primary text-center align-middle linkFade" style="color:white;">&times;</td>
                 </tr>
                 <tr>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">sin^{-1}</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">cos^{-1}</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">tan^{-1}</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">\sqrt[x]{y}</span></td>
+                  <td onclick="Controller(asin)" class="bg-light text-center align-middle linkFade"><i>sin<sup>-1</sup></i></td>
+                  <td onclick="Controller(acos)" class="bg-light text-center align-middle linkFade"><i>cos<sup>-1</sup></i></td>
+                  <td onclick="Controller(atan)" class="bg-light text-center align-middle linkFade"><i>tan<sup>-1</sup></i></td>
+                  <td onclick="Controller(xrt)" class="bg-light text-center align-middle linkFade"><span lang="latex">\sqrt[x]{y}</span></td>
                   <td onclick="numInput(4)" class="bg-secondary text-center align-middle linkFade" style="color:white;">4</td>
                   <td onclick="numInput(5)" class="bg-secondary text-center align-middle linkFade" style="color:white;">5</td>
                   <td onclick="numInput(6)" class="bg-secondary text-center align-middle linkFade" style="color:white;">6</td>
                   <td onclick="Controller(add)" class="bg-primary text-center align-middle linkFade" style="color:white;">+</td>
                 </tr>
                 <tr>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">log_{10}</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">log_2</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">ln</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">y^x</span></td>
+                  <td onclick="Controller(log10)" class="bg-light text-center align-middle linkFade"><i>log<sub>10</sub></i></td>
+                  <td onclick="Controller(log2)" class="bg-light text-center align-middle linkFade"><i>log<sub>2</sub></i></td>
+                  <td onclick="Controller(ellen)" class="bg-light text-center align-middle linkFade"><i>ln</i></td>
+                  <td onclick="Controller(y2x)" class="bg-light text-center align-middle linkFade"><i>y<sup>x</sup></i></td>
                   <td onclick="numInput(1)" class="bg-secondary text-center align-middle linkFade" style="color:white;">1</td>
                   <td onclick="numInput(2)" class="bg-secondary text-center align-middle linkFade" style="color:white;">2</td>
                   <td onclick="numInput(3)" class="bg-secondary text-center align-middle linkFade" style="color:white;">3</td>
                   <td onclick="Controller(sub)" class="bg-primary text-center align-middle linkFade" style="color:white;">-</td>
                 </tr>
                 <tr>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">10^x</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">2^x</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">e^x</span></td>
-                  <td class="bg-light text-center align-middle linkFade"><span lang="latex">x^2</span></td>
+                  <td onclick="Controller(ten2x)" class="bg-light text-center align-middle linkFade"><i>10<sup>x</sup></i></td>
+                  <td onclick="Controller(t2x)" class="bg-light text-center align-middle linkFade"><i>2<sup>x</sup></i></td>
+                  <td onclick="Controller(e2x)" class="bg-light text-center align-middle linkFade"><i>e<sup>x</sup></i></td>
+                  <td onclick="Controller(xsq)" class="bg-light text-center align-middle linkFade"><i>x<sup>2</sup></i></td>
                   <td onclick="numInput(0)" class="bg-secondary text-center align-middle linkFade" style="color:white;">0</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">.</td>
-                  <td class="bg-secondary text-center align-middle linkFade" style="color:white;">&#177;</td>
+                  <td onclick="numInput('.')" class="bg-secondary text-center align-middle linkFade" style="color:white;">.</td>
+                  <td onclick="negate()" class="bg-secondary text-center align-middle linkFade" style="color:white;">&#177;</td>
                   <td onclick="enterNumber()" class="bg-primary text-center align-middle linkFade" style="color:white;">enter</td>
                 </tr>
               </tbody>
