@@ -9,12 +9,12 @@ let clearClicks = 0;
 let trigState = "deg";
 
 let trigResolve = {
-  "sin":x => Math.sin(x),
-  "cos":x => Math.cos(x),
-  "tan":x => Math.tan(x),
-  "asin":x => Math.asin(x),
-  "acos":x => Math.acos(x),
-  "atan":x => Math.atan(x)
+  "sin":x => (trigState == "deg")?Math.sin(x*Math.PI/180)*(180/Math.PI):Math.sin(x),
+  "cos":x => (trigState == "deg")?Math.sin(x*Math.PI/180)*(180/Math.PI):Math.cos(x),
+  "tan":x => (trigState == "deg")?Math.sin(x*Math.PI/180)*(180/Math.PI):Math.tan(x),
+  "asin":x => (trigState == "deg")?Math.asin(x)*(180/Math.PI):Math.asin(x),
+  "acos":x => (trigState == "deg")?Math.acos(x)*(180/Math.PI):Math.acos(x),
+  "atan":x => (trigState == "deg")?Math.atan(x)*(180/Math.PI):Math.atan(x)
 }
 
 class button{
@@ -366,12 +366,14 @@ const ClearTape = () => {
 const Controller = (btn,num) => {
   clearClicks = 0;
   let inputting = 0;
+  let checker = 0;
   if(currentNum.length != 0) inputting = 1;
-  if((stack.length + inputting) < btn.req){
+  if(stack[0] != 0 || stack.length > 1) checker = stack.length;
+  if((checker + inputting) < btn.req){
     alert(`${btn.title} requires ${btn.req} present numbers in the stack!`);
   }else{
     if(inputting == 1 && btn.title != "enter") {
-      //if(stack.length == 1 && stack[0] == 0) stack.pop();
+      if(stack.length == 1 && stack[0] == 0) stack.pop();
       stack.push(Number(currentNum.toString().replace(/,/g,"")));
       $("#topDisplay").html("Enter a number using the keypad below:");
       currentNum = [];
@@ -458,10 +460,7 @@ const switchTrig = () => {
   }
 }
 
-const trigEval = (fn,x) => {
-  if(trigState == "deg") return trigResolve[fn](x * Math.PI/180);
-  else return trigResolve[fn](x);
-}
+const trigEval = (fn,x) => trigResolve[fn](x);
 
 const backspaceNum = () => {
   currentNum.pop();
